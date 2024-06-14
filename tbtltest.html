@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Font Awesome CDN Link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+
+    <!-- AOS CDN Link -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Slick Slider CDN Link -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
+    />
+
+    <!-- Swipper Slider CND Link -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="./CSS/index.css" />
+    <script src="JS/index.js"></script>
+    <title>Tính điểm trung bình tích lũy</title>
+  <style>
+    /* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container1 {
+  max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.input-group1 {
+  margin-bottom: 20px;
+}
+
+.input-group1 label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group1 input[type="number"],
+.input-group1 select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input-group1 p {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #888;
+}
+
+.main_contents label {
+  display: inline-block;
+  width: 60px;
+}
+
+.main_contents input[type="number"],
+.main_contents select {
+  width: 100px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.main_contents button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.main_display {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.result {
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+/* Responsive Styles */
+@media only screen and (max-width: 600px) {
+  .container1 {
+    padding: 10px;
+  }
+
+  .main_contents input[type="number"],
+  .main_contents select {
+    width: 80px;
+  }
+}
+  </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header_menu">
+        <li class="header_menu_item">
+          <a href="index.html" class="menu_item_text">Home</a>
+        </li>
+        <li class="header_menu_item">
+          <a href="./tbtltest.html" class="menu_item_text"
+            >Tính Trung Bình Tích Lũy
+          </a>
+        </li>
+        <li class="header_menu_item">
+          <a href="./test.html" class="menu_item_text">
+            Đề Xuất Điểm Mục Tiêu
+          </a>
+        </li>
+        <li class="header_menu_item">
+          <a href="./dexuat2.html" class="menu_item_text">
+            Cải Thiện Điểm
+          </a>
+        </li>
+      </div>
+    </header>
+    <div class="container1">
+      <h1>Tính điểm trung bình tích lũy</h1>
+      <div class="input-group1">
+        <label for="previous-gpa">Điểm trung bình tích lũy ở kỳ trước:</label>
+        <input
+          type="number"
+          id="previous-gpa"
+          step="0.01"
+          min="0"
+          max="4"
+          required
+        />
+        <p>Điểm tích lũy ở kỳ gần nhất</p>
+      </div>
+      <div class="input-group1">
+        <label for="previous-credits">Số chỉ tích lũy từ các kỳ trước:</label>
+        <input type="number" id="previous-credits" min="0" required />
+        <p>Bao gồm các tín chỉ Tinhoc, AVCB, QPAN, Thechat đã học</p>
+      </div>
+      <h5>Kết quả học tập của kì hiện tại</h5>
+
+     <p>Lưu ý: nhập những học phần có tính tích luỹ</p>
+      <div class="main_contents">
+        <label>Số chỉ: </label>
+        <input type="number" id="credit" />
+        <label>Điểm: </label>
+        <select id="grade">
+          <option value="">Chọn điểm</option>
+          <option value="A">A</option>
+          <option value="B+">B+</option>
+          <option value="B">B</option>
+          <option value="C+">C+</option>
+          <option value="C">C</option>
+          <option value="D+">D+</option>
+          <option value="D">D</option>
+          <option value="F">F</option>
+        </select>
+        <button onclick="addSubject()" id="nut1">Thêm môn học</button>
+       
+      </div>
+
+      <br />
+      <div class="main_display">
+        <div id="subjectsContainer"></div>
+      </div>
+      <br />
+      <div class="btnCalculate">
+        <button onclick="calculateGPA0()" id="nuttinh">Tính</button>
+
+      </div>
+      <div class="result" id="result"></div>
+    </div>
+
+    <script>
+      function calculateGPA0() {
+        var previousGPA = parseFloat(
+          document.getElementById("previous-gpa").value
+        );
+        var previousCredits = parseInt(
+          document.getElementById("previous-credits").value
+        );
+        // var currentCredits = parseInt(
+        //   document.getElementById("current-credits").value
+        // );
+        // var currentPoints = parseFloat(
+        //   document.getElementById("current-points").value
+        // );
+        var gpa=calculateGPA2();
+        var tinchi=tongtinchi();
+        var totalCredits = previousCredits + tinchi;
+        var cumulativePoints = previousGPA * previousCredits;
+        var currentCumulativePoints = gpa * tinchi;
+        var totalCumulativePoints = cumulativePoints + currentCumulativePoints;
+        var cumulativeGPA = totalCumulativePoints / totalCredits;
+
+        document.getElementById("result").textContent =
+          "Điểm trung bình tích lũy: " + cumulativeGPA.toFixed(2);
+      }
+    </script>
+
+  </body>
+</html>
